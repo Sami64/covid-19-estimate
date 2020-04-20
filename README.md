@@ -6,6 +6,8 @@ A app just getting some mock estimates from the api I built during the BUILDSDG 
 https://covid-19-dev-c.herokuapp.com/api/v1/
 
 Endpoint makes use of a POST request in json format
+
+
 #mock post request data = 
 {
   "region": {
