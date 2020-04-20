@@ -3,7 +3,7 @@
 A app just getting some mock estimates from the api I built during the BUILDSDG assessment with Andela.
 
 ## API ENDPOINT
-https://covid-19-dev-c.herokuapp.com/api/v1/
+https://covid-19-dev-c.herokuapp.com/api/v1/on-covid-19
 
 Endpoint makes use of a POST request in json format
 
