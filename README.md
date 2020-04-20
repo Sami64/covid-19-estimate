@@ -9,6 +9,7 @@ Endpoint makes use of a POST request in json format
 
 
 # mock post request data
+# Content-Type : application/json
 
 {
 
