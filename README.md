@@ -1,16 +1,35 @@
 # covid_impact
 
-A new Flutter project.
+A app just getting some mock estimates from the api I built during the BUILDSDG assessment with Andela.
 
-## Getting Started
+## API ENDPOINT
+https://covid-19-dev-c.herokuapp.com/api/v1/on-covid-19
 
-This project is a starting point for a Flutter application.
+Endpoint makes use of a POST request in json format
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+# mock post request data
+# Content-Type : application/json
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+{
+
+  "region": {
+  
+    "name": "Africa",
+    "avgAge": 19.7,
+    "avgDailyIncomeInUSD": 5,
+    "avgDailyIncomePopulation": 0.71
+  },
+  
+  
+  "periodType": "days",
+  
+  "timeToElapse": 58,
+  
+  "reportedCases": 674,
+  
+  "population": 66622705,
+  
+  "totalHospitalBeds": 1380614
+  
+}
