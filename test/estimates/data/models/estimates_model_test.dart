@@ -69,7 +69,6 @@ void main() {
     );
   });
 
-  group(('toJson'), () {
     test(
       'should return valid json of model',
       () async {
@@ -112,5 +111,4 @@ void main() {
         expect(result, expectedMap);
       },
     );
-  });
 }
