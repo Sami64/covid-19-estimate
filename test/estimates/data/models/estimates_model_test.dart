@@ -3,7 +3,8 @@ import 'package:covid_impact/features/show_estimates/data/models/estimates_model
 import 'package:covid_impact/features/show_estimates/domain/entities/estimates.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../fixtures/fixture_reader.dart';
+
+import '../../../fixtures/fixture_reader.dart';
 
 void main() {
   final tEstimatesModel = EstimatesModel(
