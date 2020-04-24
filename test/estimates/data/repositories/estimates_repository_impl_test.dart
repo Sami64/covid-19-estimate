@@ -1,3 +1,5 @@
+import 'package:covid_impact/core/error/exception.dart';
+import 'package:covid_impact/core/error/failures.dart';
 import 'package:covid_impact/core/network/network_info.dart';
 import 'package:covid_impact/features/show_estimates/data/datasources/estimates_local_data_source.dart';
 import 'package:covid_impact/features/show_estimates/data/datasources/estimates_remote_data_source.dart';
@@ -177,8 +179,93 @@ void main() {
               tReportedCases,
               tPopulation,
               tTotalHospitalBeds));
-              
+
           verify(mockEstimatesLocalDataSource.cacheEstimates(tEstimatesModel));
+        },
+      );
+
+      test(
+        'should throw server exception when call to remote data source is unsuccessfull',
+        () async {
+          // arrange
+          when(mockEstimatesRemoteDataSource.getEstimates(
+                  any, any, any, any, any, any, any, any, any))
+              .thenThrow(ServerException());
+          // act
+          final result = await repository.getEstimates(
+              tName,
+              tAvgAge,
+              tAvgDailyIncomeInUSD,
+              tAvgDailyIncomePopulation,
+              tPeriodType,
+              tTimeToElapse,
+              tReportedCases,
+              tPopulation,
+              tTotalHospitalBeds);
+          // assert
+          verify(mockEstimatesRemoteDataSource.getEstimates(
+              tName,
+              tAvgAge,
+              tAvgDailyIncomeInUSD,
+              tAvgDailyIncomePopulation,
+              tPeriodType,
+              tTimeToElapse,
+              tReportedCases,
+              tPopulation,
+              tTotalHospitalBeds));
+          verifyZeroInteractions(mockEstimatesLocalDataSource);
+          expect(result, equals(Left(ServerFailure())));
+        },
+      );
+    });
+
+    runOfflineTests(() {
+      test(
+        'should return last cached estimates when cached estimates is present',
+        () async {
+          // arrange
+          when(mockEstimatesLocalDataSource.getLastEstimate())
+              .thenAnswer((_) async => tEstimatesModel);
+          // act
+          final result = await repository.getEstimates(
+              tName,
+              tAvgAge,
+              tAvgDailyIncomeInUSD,
+              tAvgDailyIncomePopulation,
+              tPeriodType,
+              tTimeToElapse,
+              tReportedCases,
+              tPopulation,
+              tTotalHospitalBeds);
+
+          // assert
+          verifyZeroInteractions(mockEstimatesRemoteDataSource);
+          verify(mockEstimatesLocalDataSource.getLastEstimate());
+          expect(result, equals(Right(tEstimates)));
+        },
+      );
+
+      test(
+        'should return cache failure when cached estimates are not present',
+        () async {
+          // arrange
+          when(mockEstimatesLocalDataSource.getLastEstimate())
+              .thenThrow(CacheException());
+          // act
+          final result = await repository.getEstimates(
+              tName,
+              tAvgAge,
+              tAvgDailyIncomeInUSD,
+              tAvgDailyIncomePopulation,
+              tPeriodType,
+              tTimeToElapse,
+              tReportedCases,
+              tPopulation,
+              tTotalHospitalBeds);
+          // assert
+          verifyZeroInteractions(mockEstimatesRemoteDataSource);
+          verify(mockEstimatesLocalDataSource.getLastEstimate());
+          expect(result, equals(Left(CacheFailure())));
         },
       );
     });

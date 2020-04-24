@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:covid_impact/core/error/exception.dart';
 import 'package:covid_impact/core/error/failures.dart';
 import 'package:covid_impact/core/network/network_info.dart';
 import 'package:covid_impact/features/show_estimates/data/datasources/estimates_local_data_source.dart';
@@ -31,20 +32,31 @@ class EstimatesRepositoryImpl implements EstimatesRepository {
       int population,
       int totalHospitalBeds) async {
     // TODO: implement getEstimates
-    networkInfo.isConnected;
-
-    final remoteEstimates = await remoteDataSource.getEstimates(
-        name,
-        avgAge,
-        avgDailyIncomeInUSD,
-        avgDailyIncomePopulation,
-        periodType,
-        timeToElapse,
-        reportedCases,
-        population,
-        totalHospitalBeds);
+    if (await networkInfo.isConnected) { //device online
+      try {
+        final remoteEstimates = await remoteDataSource.getEstimates(
+            name,
+            avgAge,
+            avgDailyIncomeInUSD,
+            avgDailyIncomePopulation,
+            periodType,
+            timeToElapse,
+            reportedCases,
+            population,
+            totalHospitalBeds);
         localDataSource.cacheEstimates(remoteEstimates);
 
-    return Right(remoteEstimates);
+        return Right(remoteEstimates);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else { //device offline
+    try{
+      final localEstimates = await localDataSource.getLastEstimate();
+      return Right(localEstimates);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+    }
   }
 }
