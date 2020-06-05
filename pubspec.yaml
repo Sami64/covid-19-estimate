@@ -27,6 +27,7 @@ dependencies:
   data_connection_checker: ^0.3.4
   http: ^0.12.0+2
   shared_preferences: ^0.5.3+4
+  flutter_bloc: ^4.0.0
 
 dev_dependencies:
   flutter_test:
