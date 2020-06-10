@@ -4,10 +4,11 @@ import 'package:covid_impact/core/network/network_info.dart';
 import 'package:covid_impact/features/show_estimates/data/datasources/estimates_local_data_source.dart';
 import 'package:covid_impact/features/show_estimates/data/datasources/estimates_remote_data_source.dart';
 import 'package:covid_impact/features/show_estimates/data/models/estimates_model.dart';
+import 'package:covid_impact/features/show_estimates/data/models/infection_data_model.dart';
 import 'package:covid_impact/features/show_estimates/data/repositories/estimates_repository_impl.dart';
 import 'package:covid_impact/features/show_estimates/domain/entities/estimates.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 class MockEstimatesRemoteDataSource extends Mock
@@ -63,31 +64,29 @@ void main() {
   final tReportedCases = 674;
   final tPopulation = 66622705;
   final tTotalHospitalBeds = 1380614;
-
+  final tInfectionDataModel = InfectionDataModel(
+    currentlyInfected: 6740,
+    infectionsByRequestedTime: 3533701120,
+    severeCasesByRequestedTime: 530055168,
+    hospitalBedsByRequestedTime: -529571953,
+    casesForVentilatorsByRequestedTime: 176685056,
+    casesForICUByRequestedTime: 70674022,
+    dollarsInFlight: 216286878,
+  );
   final tEstimatesModel = EstimatesModel(
-      name: 'Africa',
-      avgAge: 19.7,
-      avgDailyIncomeInUSD: 5,
-      avgDailyIncomePopulation: 0.71,
-      periodType: 'days',
-      timeToElapse: 58,
-      reportedCases: 674,
-      population: 66622705,
-      totalHospitalBeds: 1380614,
-      impactCurrentlyInfected: 6740,
-      impactInfectionsByRequestedTime: 3533701120,
-      impactSevereCasesByRequestedeTime: 530055168,
-      impactHospitalBedsByRequestedTime: -529571953,
-      impactCasesForICUByRequestedTime: 176685056,
-      impactCasesForVentilatorsByRequestedTime: 70674022,
-      impactdollarsInFlight: 216286878,
-      severeCurrentlyInfected: 33700,
-      severeInfectionsByRequestedTime: 17668505600,
-      severeSevereCasesByRequestedeTime: 2650275840,
-      severeHospitalBedsByRequestedTime: -2649792625,
-      severeCasesForICUByRequestedTime: 883425280,
-      severeCasesForVentilatorsByRequestedTime: 353370112,
-      severedollarsInFlight: 1081434394);
+    name: 'Africa',
+    avgAge: 19.7,
+    avgDailyIncomeInUSD: 5,
+    avgDailyIncomePopulation: 0.71,
+    periodType: 'days',
+    timeToElapse: 58,
+    reportedCases: 674,
+    population: 66622705,
+    totalHospitalBeds: 1380614,
+    impactCurrentlyInfected: 6740,
+    impact: tInfectionDataModel,
+    severe: tInfectionDataModel,
+  );
 
   final Estimates tEstimates = tEstimatesModel;
 

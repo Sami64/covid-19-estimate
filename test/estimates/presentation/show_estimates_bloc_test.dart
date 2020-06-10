@@ -1,19 +1,20 @@
 import 'package:covid_impact/core/error/failures.dart';
 import 'package:covid_impact/features/show_estimates/domain/entities/estimates.dart';
+import 'package:covid_impact/features/show_estimates/domain/entities/infection_data.dart';
 import 'package:covid_impact/features/show_estimates/domain/usecases/get_estimates.dart';
 import 'package:covid_impact/presentation/bloc/show_estimates_bloc.dart';
-import 'package:mockito/mockito.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 
-class MockGetEstimiates extends Mock implements GetEstimates {}
+class MockGetEstimates extends Mock implements GetEstimates {}
 
 void main() {
   ShowEstimatesBloc bloc;
-  MockGetEstimiates mockGetEstimates;
+  MockGetEstimates mockGetEstimates;
 
   setUp(() {
-    mockGetEstimates = MockGetEstimiates();
+    mockGetEstimates = MockGetEstimates();
 
     bloc = ShowEstimatesBloc(estimate: mockGetEstimates);
   });
@@ -32,59 +33,28 @@ void main() {
     final tReportedCases = 674;
     final tPopulation = 66622705;
     final tTotalHospitalBeds = 1380614;
-
+    final tInfectionData = InfectionData(
+      currentlyInfected: 6740,
+      infectionsByRequestedTime: 3533701120,
+      severeCasesByRequestedTime: 530055168,
+      hospitalBedsByRequestedTime: -529571953,
+      casesForVentilatorsByRequestedTime: 176685056,
+      casesForICUByRequestedTime: 70674022,
+      dollarsInFlight: 216286878,
+    );
     final tEstimates = Estimates(
-        name: 'Africa',
-        avgAge: 19.7,
-        avgDailyIncomeInUSD: 5,
-        avgDailyIncomePopulation: 0.71,
-        periodType: 'days',
-        timeToElapse: 58,
-        reportedCases: 674,
-        population: 66622705,
-        totalHospitalBeds: 1380614,
-        impactCurrentlyInfected: 6740,
-        impactInfectionsByRequestedTime: 3533701120,
-        impactSevereCasesByRequestedeTime: 530055168,
-        impactHospitalBedsByRequestedTime: -529571953,
-        impactCasesForICUByRequestedTime: 176685056,
-        impactCasesForVentilatorsByRequestedTime: 70674022,
-        impactdollarsInFlight: 216286878,
-        severeCurrentlyInfected: 33700,
-        severeInfectionsByRequestedTime: 17668505600,
-        severeSevereCasesByRequestedeTime: 2650275840,
-        severeHospitalBedsByRequestedTime: -2649792625,
-        severeCasesForICUByRequestedTime: 883425280,
-        severeCasesForVentilatorsByRequestedTime: 353370112,
-        severedollarsInFlight: 1081434394);
-
-    test('should get estimates from usecase', () async {
-      //arrange
-      when(mockGetEstimates(any)).thenAnswer((_) async => Right(tEstimates));
-      //act
-      bloc.add(GetEstimatesForUser(
-          tName,
-          tAvgAge,
-          tAvgDailyIncomeInUSD,
-          tAvgDailyIncomePopulation,
-          tPeriodType,
-          tTimeToElapse,
-          tReportedCases,
-          tTotalHospitalBeds,
-          tPopulation));
-      await untilCalled(mockGetEstimates(any));
-      //assert
-      verify(mockGetEstimates(Params(
-          name: tName,
-          avgAge: tAvgAge,
-          avgDailyIncomeInUSD: tAvgDailyIncomeInUSD,
-          avgDailyIncomePopulation: tAvgDailyIncomePopulation,
-          timeToElapse: tTimeToElapse,
-          periodType: tPeriodType,
-          reportedCases: tReportedCases,
-          totalHospitalBeds: tTotalHospitalBeds,
-          population: tPopulation)));
-    });
+      name: 'Africa',
+      avgAge: 19.7,
+      avgDailyIncomeInUSD: 5,
+      avgDailyIncomePopulation: 0.71,
+      periodType: 'days',
+      timeToElapse: 58,
+      reportedCases: 674,
+      population: 66622705,
+      totalHospitalBeds: 1380614,
+      impact: tInfectionData,
+      severe: tInfectionData,
+    );
 
     test('should emit [Loading] and [Loaded]', () async {
       //arrange

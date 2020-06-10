@@ -3,16 +3,16 @@ import 'package:covid_impact/core/usecases/usecase.dart';
 import 'package:covid_impact/features/show_estimates/domain/entities/estimates.dart';
 import 'package:covid_impact/features/show_estimates/domain/repositories/estimates_repository.dart';
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
-class GetEstimates implements UseCase<Estimates, Params> {
+class GetEstimates implements UseCase<Estimates, EstimateParams> {
   final EstimatesRepository repository;
 
   GetEstimates(this.repository);
 
   @override
-  Future<Either<Failure, Estimates>> call(Params params) async {
+  Future<Either<Failure, Estimates>> call(EstimateParams params) async {
     return await repository.getEstimates(
         params.name,
         params.avgAge,
@@ -26,7 +26,7 @@ class GetEstimates implements UseCase<Estimates, Params> {
   }
 }
 
-class Params extends Equatable {
+class EstimateParams extends Equatable {
   final String name;
   final double avgAge;
   final double avgDailyIncomeInUSD;
@@ -37,7 +37,7 @@ class Params extends Equatable {
   final int population;
   final int totalHospitalBeds;
 
-  Params({
+  EstimateParams({
     @required this.name,
     @required this.avgAge,
     @required this.avgDailyIncomeInUSD,

@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:covid_impact/core/error/failures.dart';
 import 'package:covid_impact/features/show_estimates/domain/entities/estimates.dart';
 import 'package:covid_impact/features/show_estimates/domain/usecases/get_estimates.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -17,9 +16,8 @@ const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
 class ShowEstimatesBloc extends Bloc<ShowEstimatesEvent, ShowEstimatesState> {
   final GetEstimates getEstimates;
 
-  ShowEstimatesBloc({
-    @required GetEstimates estimate
-    }) : assert(estimate != null),
+  ShowEstimatesBloc({@required GetEstimates estimate})
+      : assert(estimate != null),
         getEstimates = estimate;
 
   @override
@@ -32,7 +30,7 @@ class ShowEstimatesBloc extends Bloc<ShowEstimatesEvent, ShowEstimatesState> {
     // TODO: implement mapEventToState
     if (event is GetEstimatesForUser) {
       yield ShowEstimatesLoading();
-      final failureOrEstimate = await getEstimates(Params(
+      final failureOrEstimate = await getEstimates(EstimateParams(
           name: event.name,
           avgAge: event.avgAge,
           avgDailyIncomeInUSD: event.avgDailyIncomeInUSD,
@@ -41,24 +39,22 @@ class ShowEstimatesBloc extends Bloc<ShowEstimatesEvent, ShowEstimatesState> {
           periodType: event.periodType,
           reportedCases: event.reportedCases,
           totalHospitalBeds: event.totalHospitalBeds,
-          population: event.population
-          ));
+          population: event.population));
 
-          yield failureOrEstimate.fold(
-            (fail) => ShowEstimatesError(message: _mapFailureToMessage(fail)),
-            (estimate) => ShowEstimatesLoaded(estimates: estimate)
-          );
+      yield failureOrEstimate.fold(
+              (fail) => ShowEstimatesError(message: _mapFailureToMessage(fail)),
+              (estimate) => ShowEstimatesLoaded(estimates: estimate));
     }
   }
 
   String _mapFailureToMessage(Failure failure) {
-    switch(failure.runtimeType) {
+    switch (failure.runtimeType) {
       case ServerFailure:
-      return SERVER_FAILURE_MESSAGE;
+        return SERVER_FAILURE_MESSAGE;
       case CacheFailure:
-      return CACHE_FAILURE_MESSAGE;
+        return CACHE_FAILURE_MESSAGE;
       default:
-      return 'Unexpected';
+        return 'Unexpected';
     }
   }
 }
