@@ -1,10 +1,11 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+
 import 'package:covid_impact/core/error/failures.dart';
 import 'package:covid_impact/features/show_estimates/domain/entities/estimates.dart';
 import 'package:covid_impact/features/show_estimates/domain/usecases/get_estimates.dart';
-import 'package:covid_impact/presentation/bloc/show_estimates_bloc.dart';
-import 'package:mockito/mockito.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:dartz/dartz.dart';
+import 'package:covid_impact/features/show_estimates/presentation/bloc/show_estimates_bloc.dart';
 
 class MockGetEstimiates extends Mock implements GetEstimates {}
 
@@ -57,35 +58,6 @@ void main() {
         severeCasesForICUByRequestedTime: 883425280,
         severeCasesForVentilatorsByRequestedTime: 353370112,
         severedollarsInFlight: 1081434394);
-
-    test('should get estimates from usecase', () async {
-      //arrange
-      when(mockGetEstimates(any)).thenAnswer((_) async => Right(tEstimates));
-      //act
-      bloc.add(GetEstimatesForUser(
-          tName,
-          tAvgAge,
-          tAvgDailyIncomeInUSD,
-          tAvgDailyIncomePopulation,
-          tPeriodType,
-          tTimeToElapse,
-          tReportedCases,
-          tTotalHospitalBeds,
-          tPopulation));
-      await untilCalled(mockGetEstimates(any));
-      //assert
-      verify(mockGetEstimates(Params(
-          name: tName,
-          avgAge: tAvgAge,
-          avgDailyIncomeInUSD: tAvgDailyIncomeInUSD,
-          avgDailyIncomePopulation: tAvgDailyIncomePopulation,
-          timeToElapse: tTimeToElapse,
-          periodType: tPeriodType,
-          reportedCases: tReportedCases,
-          totalHospitalBeds: tTotalHospitalBeds,
-          population: tPopulation)));
-    });
-
     test('should emit [Loading] and [Loaded]', () async {
       //arrange
       when(mockGetEstimates(any)).thenAnswer((_) async => Right(tEstimates));

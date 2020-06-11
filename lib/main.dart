@@ -1,7 +1,13 @@
+import 'package:covid_impact/features/show_estimates/presentation/pages/estimates_input_page.dart';
 import 'package:flutter/material.dart';
- 
-void main() => runApp(MyApp());
- 
+import 'injection_container.dart' as di;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
+  runApp(MyApp());
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,8 +18,13 @@ class MyApp extends StatelessWidget {
           title: Text('Material App Bar'),
         ),
         body: Center(
-          child: Container(
-            child: Text('Hello World'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('COVID'),
+              SizedBox(height: 100),
+              EstimatesInputPage()
+            ],
           ),
         ),
       ),
