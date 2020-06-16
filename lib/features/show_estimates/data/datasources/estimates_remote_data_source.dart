@@ -37,27 +37,32 @@ class EstimatesRemoteDataSourceImpl implements EstimatesRemoteDataSource {
       int reportedCases,
       int population,
       int totalHospitalBeds) async {
+    Map dat = {
+      'region': {
+        'name': name,
+        'avgAge': avgAge,
+        'avgDailyIncomeInUSD': avgDailyIncomeInUSD,
+        'avgDailyIncomePopulation': avgDailyIncomePopulation
+      },
+      'periodType': periodType,
+      'timeToElapse': timeToElapse,
+      'reportedCases': reportedCases,
+      'population': population,
+      'totalHospitalBeds': totalHospitalBeds
+    };
+
+    String body = json.encode(dat);
+
     // TODO: implement getEstimates
     final response = await client.post(
-      'https://covid-19-dev-c.herokuapp.com/api/v1/on-covid-19',
-      body: {
-        'region': {
-              'name': name,
-              'avgAge': avgAge,
-              'avgDailyIncomeInUSD': avgDailyIncomeInUSD,
-              'avgDailyIncomePopulation': avgDailyIncomePopulation
-            },
-            'periodType': periodType,
-            'timeToElapse': timeToElapse,
-            'reportedCases': reportedCases,
-            'population': population,
-            'totalHospitalBeds': totalHospitalBeds
-      }
-    );
+        'https://covid-19-dev-c.herokuapp.com/api/v1/on-covid-19',
+        headers: {"Content-Type": "application/json"},
+        body: body
+        );
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       return EstimatesModel.fromJson(json.decode(response.body));
-    }else {
+    } else {
       print(response.statusCode);
       throw ServerException();
     }

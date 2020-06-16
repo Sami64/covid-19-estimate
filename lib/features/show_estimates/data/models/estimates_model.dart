@@ -13,7 +13,6 @@ class EstimatesModel extends Estimates {
     @required int reportedCases,
     @required int population,
     @required int totalHospitalBeds,
-    @required int impactCurrentlyInfected,
     @required InfectionData impact,
     @required InfectionData severe})
       : super(
@@ -43,7 +42,6 @@ class EstimatesModel extends Estimates {
         reportedCases: json['data']['reportedCases'],
         population: json['data']['population'],
         totalHospitalBeds: json['data']['totalHospitalBeds'],
-        impactCurrentlyInfected: json['impact']['currentlyInfected'],
         impact: InfectionDataModel.fromJson(json['impact']),
         severe: InfectionDataModel.fromJson(json['severeImpact']));
   }

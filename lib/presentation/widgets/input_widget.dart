@@ -175,18 +175,18 @@ class _InputWidgetState extends State<InputWidget> {
           child: Text('Estimate Me'),
           onPressed: () {
             print('$name, $avgAge, $avgDailyIncomeUSD, $avgPopulation, $periodType, $timeToElapse, $reportedCases, $population, $totalHospitalBeds');
-            // BlocProvider.of<ShowEstimatesBloc>(context)
-            // .add(GetEstimatesForUser(
-            //   this.name,
-            //   this.avgAge,
-            //   this.avgDailyIncomeUSD,
-            //   this.avgPopulation,
-            //   this.periodType,
-            //   this.timeToElapse,
-            //   this.reportedCases,
-            //   this.population,
-            //   this.totalHospitalBeds,
-            // ));
+            BlocProvider.of<ShowEstimatesBloc>(context)
+            .add(GetEstimatesForUser(
+              name,
+              avgAge,
+              avgDailyIncomeUSD,
+              avgPopulation,
+              periodType,
+              timeToElapse,
+              reportedCases,
+              population,
+              totalHospitalBeds,
+            ));
           },
           color: Theme.of(context).accentColor,
         ),

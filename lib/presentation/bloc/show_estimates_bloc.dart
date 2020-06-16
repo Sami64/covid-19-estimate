@@ -29,7 +29,6 @@ class ShowEstimatesBloc extends Bloc<ShowEstimatesEvent, ShowEstimatesState> {
   ) async* {
     if (event is GetEstimatesForUser) {
       yield ShowEstimatesLoading();
-      var val = () async* {
         final failureOrEstimate = await getEstimates(EstimateParams(
           name: event.name,
           avgAge: event.avgAge,
@@ -42,11 +41,8 @@ class ShowEstimatesBloc extends Bloc<ShowEstimatesEvent, ShowEstimatesState> {
           population: event.population));
 
           yield failureOrEstimate.fold(
-              (fail) async* { ShowEstimatesError(message: _mapFailureToMessage(fail));},
+              (fail) => ShowEstimatesError(message: _mapFailureToMessage(fail)),
               (estimate) => ShowEstimatesLoaded(estimates: estimate));
-      };
-
-      val();
     }
   }
 
