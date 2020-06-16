@@ -1,6 +1,10 @@
+import 'package:covid_impact/features/show_estimates/domain/entities/estimates.dart';
 import 'package:flutter/material.dart';
 
 class ResultsSheet extends StatelessWidget {
+  final Estimates estimates;
+
+  const ResultsSheet({Key key, @required this.estimates}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,12 +17,9 @@ class ResultsSheet extends StatelessWidget {
         builder: (BuildContext context, ScrollController scrollController){
           return Container(
             color: Colors.blue,
-            child: ListView.builder(
-              controller: scrollController,
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-              return ListTile(title: Text('Estimate Results', textAlign: TextAlign.center,),);
-            }),
+            child: Text(
+              estimates.name
+            ),
           );
         },
       ),

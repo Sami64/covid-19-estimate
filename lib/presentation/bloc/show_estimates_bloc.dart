@@ -27,10 +27,10 @@ class ShowEstimatesBloc extends Bloc<ShowEstimatesEvent, ShowEstimatesState> {
   Stream<ShowEstimatesState> mapEventToState(
     ShowEstimatesEvent event,
   ) async* {
-    // TODO: implement mapEventToState
     if (event is GetEstimatesForUser) {
       yield ShowEstimatesLoading();
-      final failureOrEstimate = await getEstimates(EstimateParams(
+      var val = () async* {
+        final failureOrEstimate = await getEstimates(EstimateParams(
           name: event.name,
           avgAge: event.avgAge,
           avgDailyIncomeInUSD: event.avgDailyIncomeInUSD,
@@ -41,9 +41,12 @@ class ShowEstimatesBloc extends Bloc<ShowEstimatesEvent, ShowEstimatesState> {
           totalHospitalBeds: event.totalHospitalBeds,
           population: event.population));
 
-      yield failureOrEstimate.fold(
-              (fail) => ShowEstimatesError(message: _mapFailureToMessage(fail)),
+          yield failureOrEstimate.fold(
+              (fail) async* { ShowEstimatesError(message: _mapFailureToMessage(fail));},
               (estimate) => ShowEstimatesLoaded(estimates: estimate));
+      };
+
+      val();
     }
   }
 

@@ -13,12 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('COVID-19 Estimate'),
-        ),
-        body: InputEstimatesPage(),
-      ),
+      home: InputEstimatesPage(),
     );
   }
 }

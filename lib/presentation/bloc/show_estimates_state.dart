@@ -5,11 +5,15 @@ abstract class ShowEstimatesState extends Equatable {
 }
 
 class ShowEstimatesInitial extends ShowEstimatesState {
+  const ShowEstimatesInitial();
+  
   @override
   List<Object> get props => [];
 }
 
 class ShowEstimatesLoading extends ShowEstimatesState {
+  const ShowEstimatesLoading();
+
   @override
   List<Object> get props => [];
 }

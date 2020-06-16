@@ -58,6 +58,7 @@ class EstimatesRemoteDataSourceImpl implements EstimatesRemoteDataSource {
     if(response.statusCode == 200){
       return EstimatesModel.fromJson(json.decode(response.body));
     }else {
+      print(response.statusCode);
       throw ServerException();
     }
   }
